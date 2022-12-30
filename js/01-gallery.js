@@ -1,55 +1,72 @@
-import { galleryItems } from './gallery-items.js';
-// Change code below this line
+import { galleryItems } from "./gallery-items.js";
 
-// console.log(galleryItems);
+const ref = {
+  gallery: document.querySelector(".gallery"),
+};
 
-const galleryContainer = document.querySelector('.gallery');
-const galleryMarkUp = makeGalleryMarkUp(galleryItems);
-galleryContainer.insertAdjacentHTML('beforeend', galleryMarkUp)
-galleryContainer.addEventListener('click', openInstanceModal);
+ref.gallery.addEventListener("click", handleTargetImgClick);
 
-function makeGalleryMarkUp(pictures) {
-    return pictures
-      .map(({ preview, original, description }) => {
-        return `<div class="gallery__item">
-    <a class="gallery__link" href="${original}">
-      <img
-        class="gallery__image"
-        src="${preview}"
-        data-source="${original}"
-        alt="${description}"
-      />
-    </a>
-  </div>`;
-      })
-      .join('');
+function handleTargetImgClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== "IMG") {
+    return;
   }
 
-  const instance = basicLightbox.create(
-    `
-        <img src="" />
-    `,
-    {
-      onShow: () => {
-        console.log('add listener ');
-        document.addEventListener('keydown', escBtnHandler);
-      },
-      onClose: () => {
-        console.log('remove listener ');
-        document.removeEventListener('keydown', escBtnHandler);
-      },
-    }
+  const originalUrl = getUrlOriginalSizeImg(event);
+
+  openModalOriginalSizeImg(originalUrl);
+}
+
+function getUrlOriginalSizeImg(event) {
+  return event.target.dataset.source;
+}
+
+function openModalOriginalSizeImg(originalUrl) {
+  document.addEventListener(
+    "keydown",
+    handleKeDownPressByCloseModalOriginalSizeImg
   );
-  
-  function escBtnHandler(e) {
-    if (e.code === 'Escape') {
-      instance.close();
-    }
-  }
-  
-  function openInstanceModal(e) {
-    e.preventDefault();
-    instance.element().querySelector('img').src = e.target.dataset.source;
-    instance.show();
-  }
 
+  instance = basicLightbox.create(
+    `
+    <img src="${originalUrl}">
+`
+  );
+
+  instance.show();
+}
+
+function handleKeDownPressByCloseModalOriginalSizeImg(event) {
+  if (event.code === "Escape") {
+    document.removeEventListener(
+      "keydown",
+      handleKeDownPressByCloseModalOriginalSizeImg
+    );
+    instance.close();
+  }
+}
+
+function createGallaryElementMarkup(galleryItems) {
+  return galleryItems
+    .map(({ preview, original, description }) => {
+      return `
+        <div class="gallery__item">
+    <a class="gallery__link" href="large-image.jpg">
+    <img
+      class="gallery__image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
+    />
+  </a>
+</div>
+      `;
+    })
+    .join("");
+}
+
+const gallaryMarkup = createGallaryElementMarkup(galleryItems);
+ref.gallery.innerHTML = gallaryMarkup;
+
+let instance = "";
