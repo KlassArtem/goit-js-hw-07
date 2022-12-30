@@ -1,13 +1,8 @@
-// import { galleryItems } from './gallery-items.js';
-// // Change code below this line
-
-// console.log(galleryItems);
-
 import { galleryItems } from "./gallery-items.js";
 
-const ref = {
-  gallery: document.querySelector(".gallery"),
-};
+// // Change code below this line
+
+const refGallery = document.querySelector(".gallery");
 
 function createGallaryElementMarkup(galleryItems) {
   return galleryItems
@@ -23,11 +18,12 @@ function createGallaryElementMarkup(galleryItems) {
     .join("");
 }
 
-const gallaryMarkup = createGallaryElementMarkup(galleryItems);
+const galleryMarkUp = createGallaryElementMarkup(galleryItems);
 
-ref.gallery.innerHTML = gallaryMarkup;
+refGallery.innerHTML = galleryMarkUp;
 
 new SimpleLightbox(".gallery a", {
   captionsData: "alt",
-  captionDelay: 250,
+  captionDelay: 300,
 });
+
