@@ -1,33 +1,28 @@
-// import { galleryItems } from './gallery-items.js';
-// // Change code below this line
-
-// console.log(galleryItems);
-
 import { galleryItems } from "./gallery-items.js";
 
-const ref = {
-  gallery: document.querySelector(".gallery"),
-};
+// // Change code below this line
 
-ref.gallery.addEventListener("click", handleTargetImgClick);
+const refGallery = document.querySelector(".gallery");
 
-function handleTargetImgClick(event) {
+refGallery.addEventListener("click", handleTargetImg);
+
+function handleTargetImg(event) {
   event.preventDefault();
 
   if (event.target.nodeName !== "IMG") {
     return;
   }
 
-  const originalUrl = getUrlOriginalSizeImg(event);
+  const originalUrl = getUrlBigSizeImg(event);
 
-  openModalOriginalSizeImg(originalUrl);
+  openModalOrigSizeImg(originalUrl);
 }
 
-function getUrlOriginalSizeImg(event) {
+function getUrlBigSizeImg(event) {
   return event.target.dataset.source;
 }
 
-function openModalOriginalSizeImg(originalUrl) {
+function openModalOrigSizeImg(originalUrl) {
   document.addEventListener(
     "keydown",
     handleKeDownPressByCloseModalOriginalSizeImg
@@ -52,7 +47,7 @@ function handleKeDownPressByCloseModalOriginalSizeImg(event) {
   }
 }
 
-function createGallaryElementMarkup(galleryItems) {
+function createGallElemMarkUp(galleryItems) {
   return galleryItems
     .map(({ preview, original, description }) => {
       return `
@@ -71,8 +66,8 @@ function createGallaryElementMarkup(galleryItems) {
     .join("");
 }
 
-const gallaryMarkup = createGallaryElementMarkup(galleryItems);
-ref.gallery.innerHTML = gallaryMarkup;
+const galleryMarkUp = createGallElemMarkUp(galleryItems);
+refGallery.innerHTML = galleryMarkUp;
 
 let instance = "";
 
