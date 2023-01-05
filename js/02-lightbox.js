@@ -27,3 +27,6 @@ new SimpleLightbox(".gallery a", {
   captionDelay: 300,
 });
 
+
+//====== ended ===== 
+
